@@ -18,6 +18,9 @@ def start_command(message):
 def check_message(message):
     handle_text(message, bot)
 
+#@bot.callback_query_handler(func=lambda message: message.text == "1")
+#def check_valid(message):
+    #handle_invalid_request(message, bot)
 
 # Запуск бота
 bot.polling()

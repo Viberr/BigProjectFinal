@@ -2,7 +2,8 @@
 import telebot
 from telebot import types
 from database import add_user
-from recommendations import get_recommendations, skills_recommendations, job_type_recommendations, work_style_recommendations, hobbies_recommendations
+from recommendations import get_recommendations
+ 
 
 users = {}
 
@@ -23,35 +24,33 @@ def process_name_step(message, bot):
     name = message.text
     users[message.chat.id] = {'name': name}
     msg = bot.send_message(message.chat.id, "🗓️ Сколько тебе лет?")
-    handle_invalid_request(name)
     bot.register_next_step_handler(msg, lambda m: process_age_step(m, bot))
 
 def process_age_step(message, bot):
     age = message.text
     users[message.chat.id]['age'] = age
     msg = bot.send_message(message.chat.id, "💼 Какие у тебя есть навыки? Пожалуйста, перечисли их через запятую (например, программирование, дизайн).")
-    handle_invalid_request(age)
     bot.register_next_step_handler(msg, lambda m: process_skills_step(m, bot))
 
 def process_skills_step(message, bot):
     skills = message.text
     users[message.chat.id]['skills'] = skills
     msg = bot.send_message(message.chat.id, "🏢 Какой тип работы тебя интересует? Например, удаленная работа или работа в офисе.")
-    handle_invalid_request(skills)
+    #handle_invalid_request(skills)
     bot.register_next_step_handler(msg, lambda m: process_job_type_step(m, bot))
 
 def process_job_type_step(message, bot):
     job_type = message.text
     users[message.chat.id]['job_type'] = job_type
     msg = bot.send_message(message.chat.id, "👥 Какой стиль работы тебе больше подходит? Например, работа в команде или самостоятельная работа.")
-    handle_invalid_request(job_type)
+    #handle_invalid_request(job_type)
     bot.register_next_step_handler(msg, lambda m: process_work_style_step(m, bot))
 
 def process_work_style_step(message, bot):
     work_style = message.text
     users[message.chat.id]['work_style'] = work_style
     msg = bot.send_message(message.chat.id, "🎨 Есть ли у тебя какие-либо хобби или интересы, которые могут быть связаны с работой? Например, спорт, музыка или искусство.")
-    handle_invalid_request(work_style)
+    #handle_invalid_request(work_style)
     bot.register_next_step_handler(msg, lambda m: process_hobbies_step(m, bot))
 
 def process_hobbies_step(message, bot):
@@ -114,9 +113,9 @@ def handle_text(message, bot):
         bot.send_message(message.chat.id, "🤔 Я не совсем понял. Пожалуйста, выбери один из вариантов меню.")
 
 #РЕДАКТИРОВАТЬ
-def handle_invalid_request (message, bot):
-    if message.text not in skills_recommendations and message.text not in job_type_recommendations and message.text not in work_style_recommendations and message.text not in hobbies_recommendations:
-        bot.send_message(message.chat.id, "🤔 Я не совсем понял. Возможно вы совершили ошибку в написании, либо такого ответа ещё нету в нашей программе")
+#def handle_invalid_request (message, bot):
+    #if message.text not in get_recommendations:
+        #bot.send_message(message.chat.id, "🤔 Я не совсем понял. Возможно вы совершили ошибку в написании, либо такого ответа ещё нету в нашей программе")
 
     
     

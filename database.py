@@ -24,6 +24,6 @@ def init_db():
 def add_user(name, age, skills, job_type, work_style, hobbies):
     conn = sqlite3.connect('career_bot.db')
     cursor = conn.cursor()
-    cursor.execute("INSERT INTO users (name, age, skills, job_type, work style, hobbies) VALUES (?, ?, ?)", (name, age, skills, job_type, work_style, hobbies))
+    cursor.execute("INSERT INTO users (name, age, skills, job_type, work_style, hobbies) VALUES (?, ?, ?, ?, ?, ?)", (name, age, skills, job_type, work_style, hobbies))
     conn.commit()
     conn.close()
