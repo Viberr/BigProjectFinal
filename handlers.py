@@ -3,6 +3,7 @@ import telebot
 from telebot import types
 from database import add_user
 from recommendations import get_recommendations
+from Spisok import list_variations
  
 
 users = {}
@@ -36,27 +37,30 @@ def process_skills_step(message, bot):
     skills = message.text
     users[message.chat.id]['skills'] = skills
     msg = bot.send_message(message.chat.id, "🏢 Какой тип работы тебя интересует? Например, удаленная работа или работа в офисе.")
-    #handle_invalid_request(skills)
+    #handle_invalid_request(message, bot)
     bot.register_next_step_handler(msg, lambda m: process_job_type_step(m, bot))
 
 def process_job_type_step(message, bot):
     job_type = message.text
     users[message.chat.id]['job_type'] = job_type
     msg = bot.send_message(message.chat.id, "👥 Какой стиль работы тебе больше подходит? Например, работа в команде или самостоятельная работа.")
-    #handle_invalid_request(job_type)
+    #handle_invalid_request(message, bot)
     bot.register_next_step_handler(msg, lambda m: process_work_style_step(m, bot))
 
 def process_work_style_step(message, bot):
     work_style = message.text
     users[message.chat.id]['work_style'] = work_style
     msg = bot.send_message(message.chat.id, "🎨 Есть ли у тебя какие-либо хобби или интересы, которые могут быть связаны с работой? Например, спорт, музыка или искусство.")
-    #handle_invalid_request(work_style)
+    #handle_invalid_request(message, bot)
     bot.register_next_step_handler(msg, lambda m: process_hobbies_step(m, bot))
 
 def process_hobbies_step(message, bot):
     hobbies = message.text
     users[message.chat.id]['hobbies'] = hobbies
 
+#def get_nickname(message,bot):
+    #id = message.from_user.username
+    #users[message.from_user.username]['id'] = id
     # Собираем всю информацию и сохраняем ее в БД
     add_user(
         users[message.chat.id]['name'],
@@ -64,7 +68,8 @@ def process_hobbies_step(message, bot):
         users[message.chat.id]['skills'],
         users[message.chat.id]['job_type'],
         users[message.chat.id]['work_style'],
-        users[message.chat.id]['hobbies']
+        users[message.chat.id]['hobbies'],
+        #users[message.from_user.username]['id']
     )
 
     recommend_careers(message.chat.id, bot)
@@ -112,9 +117,9 @@ def handle_text(message, bot):
     else:
         bot.send_message(message.chat.id, "🤔 Я не совсем понял. Пожалуйста, выбери один из вариантов меню.")
 
-#РЕДАКТИРОВАТЬ
+####РЕДАКТИРОВАТЬ
 #def handle_invalid_request (message, bot):
-    #if message.text not in get_recommendations:
+    #if message.text not in list_variations:
         #bot.send_message(message.chat.id, "🤔 Я не совсем понял. Возможно вы совершили ошибку в написании, либо такого ответа ещё нету в нашей программе")
 
     

@@ -26,7 +26,7 @@ def get_recommendations(user_info):
     }
 
     # Проверяем навыки на рекомендации
-    user_skills = user_info.get('skills', '').lower()
+    user_skills = user_info.get('skills', '')
     for skill, recommendation in skills_recommendations.items():
         if skill in user_skills:
             recommendations.append(recommendation)
@@ -69,7 +69,7 @@ def get_recommendations(user_info):
     'мода': "Рассмотрите карьеру в индустрии моды, как стилист, модельер или модный редактор."
     }
 
-    user_hobbies = user_info.get('hobbies', '').lower()
+    user_hobbies = user_info.get('hobbies', '')
     for hobby, recommendation in hobbies_recommendations.items():
         if hobby in user_hobbies:
             recommendations.append(recommendation)
